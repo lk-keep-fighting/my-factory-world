@@ -4,3 +4,4 @@
 
 export * from './simulation';
 export * from './editor';
+export * from './canvas';
