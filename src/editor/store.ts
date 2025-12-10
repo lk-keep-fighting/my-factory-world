@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { AnyDevice, EditorLayout, Position } from '../simulation/types';
+import React from 'react';
 
 export const GRID_SIZE = 20;
 
@@ -57,38 +58,46 @@ export type EditorStore = EditorState & EditorActions;
 
 function createDeviceFromType(type: string, position: Position): AnyDevice {
   const baseId = `${type}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-  const baseDevice = {
-    id: baseId,
-    type: type as any,
-    position,
-    width: 60,
-    height: 40,
-    state: 'stopped' as const
-  };
 
   switch (type) {
     case 'conveyor':
       return {
-        ...baseDevice,
+        id: baseId,
         type: 'conveyor',
+        position,
+        width: 60,
+        height: 40,
+        state: 'stopped' as const,
         speed: 1.0,
         direction: 'right'
       };
     case 'source':
       return {
-        ...baseDevice,
+        id: baseId,
         type: 'source',
+        position,
+        width: 60,
+        height: 40,
+        state: 'stopped' as const,
         generationRate: 1.0
       };
     case 'sink':
       return {
-        ...baseDevice,
-        type: 'sink'
+        id: baseId,
+        type: 'sink',
+        position,
+        width: 60,
+        height: 40,
+        state: 'stopped' as const
       };
     case 'junction':
       return {
-        ...baseDevice,
+        id: baseId,
         type: 'junction',
+        position,
+        width: 60,
+        height: 40,
+        state: 'stopped' as const,
         outputDirection: 'right'
       };
     default:
@@ -176,6 +185,16 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
         dragOffset: { x: 0, y: 0 }
       }
     });
+  },
+
+  updateDrag: (position: Position) => {
+    set((state) => ({
+      ...state,
+      dragState: {
+        ...state.dragState,
+        dragOffset: position
+      }
+    }));
   },
 
   snapToGrid: (position) => {
