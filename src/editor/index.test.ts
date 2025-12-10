@@ -1,5 +1,9 @@
-import { module as jestModule } from '@jest/globals';
-
-jestModule.run = jestModule.run || (() => Promise.resolve());
-
-export {};
+// Simple test to ensure the module can be loaded
+describe('Editor module', () => {
+  it('should have valid exports', () => {
+    const editorModule = require('./index');
+    expect(editorModule).toBeDefined();
+    expect(typeof editorModule.PropertiesPanel).toBe('function');
+    expect(typeof editorModule.useEditorStore).toBe('function');
+  });
+});

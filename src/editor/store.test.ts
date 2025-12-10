@@ -91,7 +91,7 @@ describe('Editor Store', () => {
         result.current.updateDevice('test-1', { speed: 2.5 });
       });
 
-      expect(result.current.devices[0].speed).toBe(2.5);
+      expect((result.current.devices[0] as any).speed).toBe(2.5);
     });
 
     it('should select a device', () => {
